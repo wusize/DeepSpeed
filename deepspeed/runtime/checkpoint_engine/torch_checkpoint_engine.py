@@ -18,6 +18,9 @@ class TorchCheckpointEngine(CheckpointEngine):
         log_dist(f"[Torch] Checkpoint {tag} is about to be saved!", ranks=[0])
 
     def save(self, state_dict, path: str):
+        if 'optim_states' in path:
+            logger.info(f"[Torch] We do not save optim_states {path}....")
+            return None
         logger.info(f"[Torch] Saving {path}...")
         torch.save(state_dict, path)
         logger.info(f"[Torch] Saved {path}.")
