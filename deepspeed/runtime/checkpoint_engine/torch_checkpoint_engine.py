@@ -19,8 +19,8 @@ class TorchCheckpointEngine(CheckpointEngine):
 
     def save(self, state_dict, path: str):
         if 'optim_states' in path:
-            logger.info(f"[Torch] optim_states: {state_dict.keys()}....")
-            return None
+            del state_dict['optimizer_state_dict']['base_optimizer_state']  
+            logger.info(f"[Torch] Delete: state_dict['optimizer_state_dict']['base_optimizer_state'].")
         logger.info(f"[Torch] Saving {path}...")
         torch.save(state_dict, path)
         logger.info(f"[Torch] Saved {path}.")
